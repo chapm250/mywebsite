@@ -12,7 +12,7 @@
 angular.module('buttons',[])
     .controller('buttonCtrl',ButtonCtrl)
     .factory('buttonApi',buttonApi)
-    .constant('apiUrl','http://localhost:1338');
+    .constant('apiUrl','http://104.131.29.124:80');
 
 
 function ButtonCtrl($scope, buttonApi){
@@ -31,7 +31,7 @@ function ButtonCtrl($scope, buttonApi){
     //}
 
     function switchVideo() {
-        buttonApi.switchVideo()
+        buttonApi.switchVideo($scope.currentChapter)
             .success(function(data){
                 $scope.video = data;
                 $scope.correctAnswer = '';
@@ -71,8 +71,8 @@ function ButtonCtrl($scope, buttonApi){
 
 function buttonApi($http,apiUrl){
     return {
-        switchVideo: function() {
-            var url = apiUrl + '/switchVideo';
+        switchVideo: function(chapter) {
+            var url = apiUrl + '/switchVideo?chapter=' + chapter;
             return $http.get(url);
         },
         changeChapters: function(chapter) {

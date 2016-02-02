@@ -2,7 +2,7 @@
  * Created by josh on 1/29/16.
  */
 var express=require('express'),
-    port = process.env.PORT || 1338;
+    port = process.env.PORT || 80;
     app = express();
 
 app.use(express.static(__dirname));
@@ -19,22 +19,36 @@ var files = ["videos/all.webm", "videos/and.webm", "videos/none.webm", "videos/a
 
 var chapt2 = ["chapt2/above.webm", "chapt2/test2.webm", "chapt2/test3.webm"];
 
+
+app.use(function (req, res, next) {
+	res.setHeader('Access-Control-Allow-Origin', 'http://felixchapman.me');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+	res.setHeader('Access-Control-Allow-Credentials', true);
+	next();
+});
 var currentChapter = files;
 
 app.get('/switchVideo', function(req, res){
-    res.send(currentChapter[Math.floor((Math.random() * currentChapter.length))]);
-    console.log(currentChapter);
-});
-
-app.get('/changeChapters', function(req, res){
-    var chapter = req.param('chapter');
-    console.log(currentChapter);
-    if (chapter == 'files') {
+     var chapter = req.param('chapter');
+     if (chapter == 'files') {
         currentChapter = files;
     } else {
         currentChapter = chapt2;
     }
-    console.log(currentChapter.length);
+    res.send(currentChapter[Math.floor((Math.random() * currentChapter.length))]);
+    
+});
+
+
+app.get('/changeChapters', function(req, res){
+    var chapter = req.param('chapter');
+     if (chapter == 'files') {
+        currentChapter = files;
+    } else {
+        currentChapter = chapt2;
+    }
+    
     res.send(currentChapter[Math.floor((Math.random() * currentChapter.length))]);
 });
 
