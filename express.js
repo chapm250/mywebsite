@@ -2,7 +2,7 @@
  * Created by josh on 1/29/16.
  */
 var express=require('express'),
-    port = process.env.PORT || 80;
+    port = process.env.PORT || 1338;
     app = express();
 
 app.use(express.static(__dirname));

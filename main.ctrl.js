@@ -12,11 +12,11 @@
 angular.module('buttons',[])
     .controller('buttonCtrl',ButtonCtrl)
     .factory('buttonApi',buttonApi)
-    .constant('apiUrl','http://104.131.29.124:80');
+    .constant('apiUrl','http://localhost:1338');
 
 
 function ButtonCtrl($scope, buttonApi){
-    $scope.video = 'videos/and.webm';
+    $scope.video = 'Quantity/and.webm';
     $scope.switchVideo = switchVideo;
     $scope.checkAnswer = checkAnswer;
     $scope.answer = 'remember no upper case & all one word';
