@@ -16,14 +16,14 @@ angular.module('buttons',[])
 
 
 function ButtonCtrl($scope, buttonApi){
-    $scope.video = 'Quantity/and.webm';
+    $scope.video = 'all/and.webm';
     $scope.switchVideo = switchVideo;
     $scope.checkAnswer = checkAnswer;
     $scope.answer = 'remember no upper case & all one word';
     $scope.correctAnswer = '';
     $scope.giveUp = giveUp;
     $scope.changeChapters = changeChapters;
-    $scope.currentChapter = 'videos';
+    $scope.currentChapter = 'all';
 
     //function switchVideo() {
     //    $scope.video = 'videos/test3.webm';

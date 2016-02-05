@@ -6,7 +6,7 @@ var express=require('express'),
     app = express();
 
 app.use(express.static(__dirname));
-var files = ["videos/all.webm", "videos/and.webm", "videos/none.webm", "videos/about.webm", "videos/above.webm", "videos/algebra.webm"
+var all = ["videos/all.webm", "videos/and.webm", "videos/none.webm", "videos/about.webm", "videos/above.webm", "videos/algebra.webm"
     , "videos/almost.webm", "videos/as.webm", "videos/below.webm", "videos/both.webm", "videos/calculus.webm"
     , "videos/count.webm", "videos/decrease.webm", "videos/divide.webm", "videos/empty.webm", "videos/enough.webm", "videos/equal.webm"
     , "videos/fedup.webm", "videos/few.webm", "videos/figure.webm", "videos/full.webm", "videos/geometry.webm", "videos/half.webm"
@@ -17,7 +17,7 @@ var files = ["videos/all.webm", "videos/and.webm", "videos/none.webm", "videos/a
     , "videos/width.webm"];
 
 
-var chapt2 = ["chapt2/above.webm", "chapt2/test2.webm", "chapt2/test3.webm"];
+var Quantity = ["chapt2/above.webm", "chapt2/test2.webm", "chapt2/test3.webm"];
 
 
 app.use(function (req, res, next) {
@@ -27,14 +27,16 @@ app.use(function (req, res, next) {
 	res.setHeader('Access-Control-Allow-Credentials', true);
 	next();
 });
-var currentChapter = files;
+
+var currentChapter = all;
+var currentChapterString = "all"
 
 app.get('/switchVideo', function(req, res){
      var chapter = req.param('chapter');
-     if (chapter == 'files') {
-        currentChapter = files;
+     if (chapter == 'all') {
+        currentChapter = all;
     } else {
-        currentChapter = chapt2;
+        currentChapter = Quantity;
     }
     res.send(currentChapter[Math.floor((Math.random() * currentChapter.length))]);
     
@@ -43,10 +45,10 @@ app.get('/switchVideo', function(req, res){
 
 app.get('/changeChapters', function(req, res){
     var chapter = req.param('chapter');
-     if (chapter == 'files') {
-        currentChapter = files;
+     if (chapter == 'all') {
+        currentChapter = all;
     } else {
-        currentChapter = chapt2;
+        currentChapter = Quantity;
     }
     
     res.send(currentChapter[Math.floor((Math.random() * currentChapter.length))]);
