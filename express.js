@@ -1,15 +1,35 @@
 /**
  * Created by josh on 1/29/16.
  */
-var express=require('express'),
-    port = process.env.PORT || 1338;
-app = express();
 
-app.use(express.static(__dirname));
+var application_root = __dirname,
+    express = require( 'express' ),
+    vhost = require( 'vhost' );
+
+function createVirtualHost(domainName, dirPath) {
+    return vhost(domainName, express.static( dirPath ));
+}
+
+//Create server
+var app = express();
+
+//Create the virtual hosts
+var potatoHost = createVirtualHost("http://localhost:1336/signL.html", "signL");
+var tomatoHost = createVirtualHost("http://localhost:1337/pizzaHub/pizza.html", "/pizzaHub/pizza");
+
+//Use the virtual hosts
+app.use(potatoHost);
+app.use(tomatoHost);
+
+//Start server
+var port = 1338;
+app.listen( port, function() {
+    console.log( 'Express server listening on port %d in %s mode', port, app.settings.env );
+});
 
 
 
-var Quantity = ["Quantity/All.webm", "Quantity/and.webm", "Quantity/none.webm", "Quantity/about.webm", "Quantity/above.webm", "Quantity/algebra.webm"
+var Quantity = ["Quantity/and.webm", "Quantity/none.webm", "Quantity/about.webm", "Quantity/above.webm", "Quantity/algebra.webm"
     , "Quantity/almost.webm", "Quantity/as.webm", "Quantity/below.webm", "Quantity/both.webm", "Quantity/calculus.webm"
     , "Quantity/count.webm", "Quantity/decrease.webm", "Quantity/divide.webm", "Quantity/empty.webm", "Quantity/enough.webm", "Quantity/equal.webm"
     , "Quantity/fedup.webm", "Quantity/few.webm", "Quantity/figure.webm", "Quantity/full.webm", "Quantity/geometry.webm", "Quantity/half.webm"
@@ -19,7 +39,7 @@ var Quantity = ["Quantity/All.webm", "Quantity/and.webm", "Quantity/none.webm", 
     , "Quantity/than.webm", "Quantity/too.webm", "Quantity/total.webm", "Quantity/trigonometry.webm", "Quantity/very.webm", "Quantity/weigh.webm", "Quantity/wide.webm"
     , "Quantity/width.webm"];
 
-var Communication = ['CommunicationAndGovernment/movie.webm', 'CommunicationAndGovernment/recordplayer.webm', 'CommunicationAndGovernment/discuss.webm', 'CommunicationAndGovernment/test.txt', 'CommunicationAndGovernment/law.webm', 'CommunicationAndGovernment/thank.webm', 'CommunicationAndGovernment/.writeName.py.swp', 'CommunicationAndGovernment/signs.webm', 'CommunicationAndGovernment/scold.webm', 'CommunicationAndGovernment/story.webm', 'CommunicationAndGovernment/letter.webm', 'CommunicationAndGovernment/politics.webm', 'CommunicationAndGovernment/exaggerate.webm', 'CommunicationAndGovernment/legislature.webm', 'CommunicationAndGovernment/testament.webm', 'CommunicationAndGovernment/commandment.webm', 'CommunicationAndGovernment/explain.webm', 'CommunicationAndGovernment/mock.webm', 'CommunicationAndGovernment/announce.webm', 'CommunicationAndGovernment/communicate.webm', 'CommunicationAndGovernment/magazine.webm', 'CommunicationAndGovernment/correspondence.webm', 'CommunicationAndGovernment/email.webm', 'CommunicationAndGovernment/command.webm', 'CommunicationAndGovernment/interpret.webm', 'CommunicationAndGovernment/principles.webm', 'CommunicationAndGovernment/second.webm', 'CommunicationAndGovernment/scream.webm', 'CommunicationAndGovernment/vow.webm', 'CommunicationAndGovernment/insult.webm', 'CommunicationAndGovernment/phone.webm', 'CommunicationAndGovernment/government.webm', 'CommunicationAndGovernment/listen.webm', 'CommunicationAndGovernment/television.webm', 'CommunicationAndGovernment/whisper.webm', 'CommunicationAndGovernment/show.webm', 'CommunicationAndGovernment/member.webm', 'CommunicationAndGovernment/interview.webm', 'CommunicationAndGovernment/promise.webm', 'CommunicationAndGovernment/federal.webm', 'CommunicationAndGovernment/congress.webm', 'CommunicationAndGovernment/advertise.webm', 'CommunicationAndGovernment/speak.webm', 'CommunicationAndGovernment/judge.webm', 'CommunicationAndGovernment/bawlout.webm', 'CommunicationAndGovernment/reveal.webm', 'CommunicationAndGovernment/book.webm', 'CommunicationAndGovernment/will.webm', 'CommunicationAndGovernment/conversation.webm', 'CommunicationAndGovernment/sentence.webm', 'CommunicationAndGovernment/writeName.py', 'CommunicationAndGovernment/totalcommunication.webm', 'CommunicationAndGovernment/expression.webm', 'CommunicationAndGovernment/translate.webm', 'CommunicationAndGovernment/fingerspelling.webm', 'CommunicationAndGovernment/taperecording.webm', 'CommunicationAndGovernment/dialogue.webm', 'CommunicationAndGovernment/board.webm', 'CommunicationAndGovernment/quarrel.webm', 'CommunicationAndGovernment/gossip.webm', 'CommunicationAndGovernment/newspaper.webm', 'CommunicationAndGovernment/rules.webm', 'CommunicationAndGovernment/seal.webm', 'CommunicationAndGovernment/senate.webm', 'CommunicationAndGovernment/vote.webm', 'CommunicationAndGovernment/debate.webm', 'CommunicationAndGovernment/radio.webm', 'CommunicationAndGovernment/voice.webm']
+var Communication = ['CommunicationAndGovernment/movie.webm', 'CommunicationAndGovernment/recordplayer.webm', 'CommunicationAndGovernment/discuss.webm', 'CommunicationAndGovernment/law.webm', 'CommunicationAndGovernment/thank.webm', 'CommunicationAndGovernment/.writeName.py.swp', 'CommunicationAndGovernment/signs.webm', 'CommunicationAndGovernment/scold.webm', 'CommunicationAndGovernment/story.webm', 'CommunicationAndGovernment/letter.webm', 'CommunicationAndGovernment/politics.webm', 'CommunicationAndGovernment/exaggerate.webm', 'CommunicationAndGovernment/legislature.webm', 'CommunicationAndGovernment/testament.webm', 'CommunicationAndGovernment/commandment.webm', 'CommunicationAndGovernment/explain.webm', 'CommunicationAndGovernment/mock.webm', 'CommunicationAndGovernment/announce.webm', 'CommunicationAndGovernment/communicate.webm', 'CommunicationAndGovernment/magazine.webm', 'CommunicationAndGovernment/correspondence.webm', 'CommunicationAndGovernment/email.webm', 'CommunicationAndGovernment/command.webm', 'CommunicationAndGovernment/interpret.webm', 'CommunicationAndGovernment/principles.webm', 'CommunicationAndGovernment/second.webm', 'CommunicationAndGovernment/scream.webm', 'CommunicationAndGovernment/vow.webm', 'CommunicationAndGovernment/insult.webm', 'CommunicationAndGovernment/phone.webm', 'CommunicationAndGovernment/government.webm', 'CommunicationAndGovernment/listen.webm', 'CommunicationAndGovernment/television.webm', 'CommunicationAndGovernment/whisper.webm', 'CommunicationAndGovernment/show.webm', 'CommunicationAndGovernment/member.webm', 'CommunicationAndGovernment/interview.webm', 'CommunicationAndGovernment/promise.webm', 'CommunicationAndGovernment/federal.webm', 'CommunicationAndGovernment/congress.webm', 'CommunicationAndGovernment/advertise.webm', 'CommunicationAndGovernment/speak.webm', 'CommunicationAndGovernment/judge.webm', 'CommunicationAndGovernment/bawlout.webm', 'CommunicationAndGovernment/reveal.webm', 'CommunicationAndGovernment/book.webm', 'CommunicationAndGovernment/will.webm', 'CommunicationAndGovernment/conversation.webm', 'CommunicationAndGovernment/sentence.webm', 'CommunicationAndGovernment/writeName.py', 'CommunicationAndGovernment/totalcommunication.webm', 'CommunicationAndGovernment/expression.webm', 'CommunicationAndGovernment/translate.webm', 'CommunicationAndGovernment/fingerspelling.webm', 'CommunicationAndGovernment/taperecording.webm', 'CommunicationAndGovernment/dialogue.webm', 'CommunicationAndGovernment/board.webm', 'CommunicationAndGovernment/quarrel.webm', 'CommunicationAndGovernment/gossip.webm', 'CommunicationAndGovernment/newspaper.webm', 'CommunicationAndGovernment/rules.webm', 'CommunicationAndGovernment/seal.webm', 'CommunicationAndGovernment/senate.webm', 'CommunicationAndGovernment/vote.webm', 'CommunicationAndGovernment/debate.webm', 'CommunicationAndGovernment/radio.webm', 'CommunicationAndGovernment/voice.webm']
 var All = [Quantity, Communication];
 
 app.use(function (req, res, next) {

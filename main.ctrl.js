@@ -12,7 +12,7 @@
 angular.module('buttons',[])
     .controller('buttonCtrl',ButtonCtrl)
     .factory('buttonApi',buttonApi)
-    .constant('apiUrl','http://localhost:1338');
+    .constant('apiUrl','http://localhost:1336');
 
 
 function ButtonCtrl($scope, buttonApi){
@@ -25,10 +25,6 @@ function ButtonCtrl($scope, buttonApi){
     $scope.changeChapters = changeChapters;
     $scope.currentChapter = 'All';
 
-    //function switchVideo() {
-    //    $scope.video = 'videos/test3.webm';
-    //
-    //}
 
     function switchVideo() {
         buttonApi.switchVideo($scope.currentChapter)
