@@ -12,7 +12,7 @@
 angular.module('buttons',[])
     .controller('buttonCtrl',ButtonCtrl)
     .factory('buttonApi',buttonApi)
-    .constant('apiUrl','http://felixchapman.me');
+    .constant('apiUrl','http://localhost:1338');
 
 
 function ButtonCtrl($scope, buttonApi){
@@ -27,11 +27,13 @@ function ButtonCtrl($scope, buttonApi){
 
 
     function switchVideo() {
+        document.getElementById("formguess").value = " ";
         buttonApi.switchVideo($scope.currentChapter)
             .success(function(data){
                 $scope.video = data;
                 $scope.correctAnswer = '';
                 $scope.answer = 'remember no upper case & all one word'
+
             })
             .error(function() {
                 console.log("fuck");
@@ -42,26 +44,28 @@ function ButtonCtrl($scope, buttonApi){
         var newGuess = $scope.video.match(findAnswer);
         if(guess == newGuess[1]){
             $scope.answer = 'Correct!!!!';
+            document.getElementById("formguess").value = " ";
         } else {
-            console.log('the guess was ' + guess);
-            console.log('the answer was ' + newGuess[1]);
-            $scope.answer = 'Wrong'
-
+            $scope.answer = 'Wrong';
+            document.getElementById("formguess").value = " ";
         }
 
     }
 
     function changeChapters(chapter) {
+        document.getElementById("formguess").value = " ";
         buttonApi.changeChapters(chapter)
             .success(function(data){
             $scope.video = data;
                 $scope.currentChapter = chapter;
+
             })
     }
     function giveUp() {
         var findAnswer = new RegExp(".*\/([a-z]*)\.*");
         var newGuess = $scope.video.match(findAnswer);
         $scope.correctAnswer = 'Dont be a quitter the answer is... ' + newGuess[1];
+        document.getElementById("formguess").value = " ";
     }
 }
 

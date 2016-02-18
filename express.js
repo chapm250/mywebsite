@@ -5,17 +5,12 @@
 
 
 var express=require('express'),
-    mysql=require('mysql'),
-    credentials=require('./credentials.json'),
     app = express(),
-    port = process.env.PORT || 80,
+    port = process.env.PORT || 1338,
     async = require('async');
 
-credentials.host='localhost'; //setup database credentials
 
-var connection = mysql.createConnection(credentials); // setup the connection
 
-connection.connect(function(err){if(err){console.log(error)}});
 
 app.use(express.static(__dirname));
 
@@ -30,7 +25,9 @@ var Quantity = ["Quantity/and.webm", "Quantity/none.webm", "Quantity/about.webm"
     , "Quantity/width.webm"];
 
 var Communication = ['CommunicationAndGovernment/movie.webm', 'CommunicationAndGovernment/recordplayer.webm', 'CommunicationAndGovernment/discuss.webm', 'CommunicationAndGovernment/law.webm', 'CommunicationAndGovernment/thank.webm', 'CommunicationAndGovernment/.writeName.py.swp', 'CommunicationAndGovernment/signs.webm', 'CommunicationAndGovernment/scold.webm', 'CommunicationAndGovernment/story.webm', 'CommunicationAndGovernment/letter.webm', 'CommunicationAndGovernment/politics.webm', 'CommunicationAndGovernment/exaggerate.webm', 'CommunicationAndGovernment/legislature.webm', 'CommunicationAndGovernment/testament.webm', 'CommunicationAndGovernment/commandment.webm', 'CommunicationAndGovernment/explain.webm', 'CommunicationAndGovernment/mock.webm', 'CommunicationAndGovernment/announce.webm', 'CommunicationAndGovernment/communicate.webm', 'CommunicationAndGovernment/magazine.webm', 'CommunicationAndGovernment/correspondence.webm', 'CommunicationAndGovernment/email.webm', 'CommunicationAndGovernment/command.webm', 'CommunicationAndGovernment/interpret.webm', 'CommunicationAndGovernment/principles.webm', 'CommunicationAndGovernment/second.webm', 'CommunicationAndGovernment/scream.webm', 'CommunicationAndGovernment/vow.webm', 'CommunicationAndGovernment/insult.webm', 'CommunicationAndGovernment/phone.webm', 'CommunicationAndGovernment/government.webm', 'CommunicationAndGovernment/listen.webm', 'CommunicationAndGovernment/television.webm', 'CommunicationAndGovernment/whisper.webm', 'CommunicationAndGovernment/show.webm', 'CommunicationAndGovernment/member.webm', 'CommunicationAndGovernment/interview.webm', 'CommunicationAndGovernment/promise.webm', 'CommunicationAndGovernment/federal.webm', 'CommunicationAndGovernment/congress.webm', 'CommunicationAndGovernment/advertise.webm', 'CommunicationAndGovernment/speak.webm', 'CommunicationAndGovernment/judge.webm', 'CommunicationAndGovernment/bawlout.webm', 'CommunicationAndGovernment/reveal.webm', 'CommunicationAndGovernment/book.webm', 'CommunicationAndGovernment/will.webm', 'CommunicationAndGovernment/conversation.webm', 'CommunicationAndGovernment/sentence.webm', 'CommunicationAndGovernment/writeName.py', 'CommunicationAndGovernment/totalcommunication.webm', 'CommunicationAndGovernment/expression.webm', 'CommunicationAndGovernment/translate.webm', 'CommunicationAndGovernment/fingerspelling.webm', 'CommunicationAndGovernment/taperecording.webm', 'CommunicationAndGovernment/dialogue.webm', 'CommunicationAndGovernment/board.webm', 'CommunicationAndGovernment/quarrel.webm', 'CommunicationAndGovernment/gossip.webm', 'CommunicationAndGovernment/newspaper.webm', 'CommunicationAndGovernment/rules.webm', 'CommunicationAndGovernment/seal.webm', 'CommunicationAndGovernment/senate.webm', 'CommunicationAndGovernment/vote.webm', 'CommunicationAndGovernment/debate.webm', 'CommunicationAndGovernment/radio.webm', 'CommunicationAndGovernment/voice.webm']
-var All = [Quantity, Communication];
+var Education = ['Education/chapter.webm', 'Education/school.webm', 'Education/college.webm', 'Education/vocabulary.webm', 'Education/psychology.webm', 'Education/training.webm', 'Education/profession.webm', 'Education/diploma.webm', 'Education/experiment.webm', 'Education/language.webm', 'Education/firstyeargradstudent.webm', 'Education/audiology.webm', 'Education/learn.webm', 'Education/certifiicate.webm', 'Education/examination.webm', 'Education/student.webm', 'Education/program.webm', 'Education/process.webm', 'Education/teach.webm', 'Education/license.webm', 'Education/project.webm', 'Education/word.webm', 'Education/lesson.webm', 'Education/idiom.webm', 'Education/library.webm', 'Education/write.webm', 'Education/poetry.webm', 'Education/line.webm', 'Education/certify.webm', 'Education/graduate.webm', 'Education/sing.webm', 'Education/study.webm', 'Education/education.webm', 'Education/institution.webm', 'Education/practice.webm', 'Education/chemistry.webm', 'Education/paragraph.webm', 'Education/minor.webm', 'Education/workshop.webm', 'Education/quote.webm', 'Education/rhythm.webm', 'Education/history.webm', 'Education/dictionary.webm', 'Education/grammar.webm', 'Education/art.webm', 'Education/biology.webm', 'Education/drama.webm', 'Education/curriculum.webm', 'Education/read.webm', 'Education/major.webm', 'Education/course.webm', 'Education/schedule.webm', 'Education/science.webm']
+
+var All = [Quantity, Communication, Education];
 
 app.all('/*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://felixchapman.me');
@@ -44,7 +41,6 @@ var currentChapter = All;
 app.get('/switchVideo', function(req, res){
     if(currentChapter == All) {
         var randomChapterChoice = All[Math.floor((Math.random() * All.length))];
-        console.log(randomChapterChoice);
         res.send(randomChapterChoice[Math.floor((Math.random() * randomChapterChoice.length))]);
     } else {
         res.send(currentChapter[Math.floor((Math.random() * eval(currentChapter).length))]);
@@ -57,7 +53,6 @@ app.get('/changeChapters', function(req, res){
     currentChapter = eval(chapter);
     if(currentChapter == All) {
         var randomChapterChoice = All[Math.floor((Math.random() * All.length))];
-        console.log(randomChapterChoice);
         res.send(randomChapterChoice[Math.floor((Math.random() * randomChapterChoice.length))]);
     } else {
         res.send(currentChapter[Math.floor((Math.random() * eval(currentChapter).length))]);
@@ -74,7 +69,6 @@ app.get("/login",function(req,res){
         if(err){console.log("We have an error:");
             console.log(err);
         } else {
-            console.log(rows);
             if(rows.length != 0) {
                 currentUser=username;
                 res.send(username);
@@ -145,7 +139,6 @@ app.get("/getCart", function(req, res){
         if(err){console.log("we have and error:");
             console.log(err);
         } else {
-            console.log(rows);
             res.send(rows);
         }
     })
