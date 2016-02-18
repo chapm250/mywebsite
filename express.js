@@ -8,7 +8,7 @@ var express=require('express'),
     mysql=require('mysql'),
     credentials=require('./credentials.json'),
     app = express(),
-    port = process.env.PORT || 1337,
+    port = process.env.PORT || 80,
     async = require('async');
 
 credentials.host='localhost'; //setup database credentials
@@ -33,7 +33,7 @@ var Communication = ['CommunicationAndGovernment/movie.webm', 'CommunicationAndG
 var All = [Quantity, Communication];
 
 app.all('/*', function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'localhost');
+    res.header('Access-Control-Allow-Origin', 'http://felixchapman.me');
     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,HEAD,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'content-Type,x-requested-with');
     next();

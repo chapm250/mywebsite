@@ -12,7 +12,7 @@
 angular.module('buttons',[])
     .controller('buttonCtrl',ButtonCtrl)
     .factory('buttonApi',buttonApi)
-    .constant('apiUrl','http://localhost:1337');
+    .constant('apiUrl','http://felixchapman.me');
 
 
 function ButtonCtrl($scope, buttonApi){
