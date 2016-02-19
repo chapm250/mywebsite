@@ -5,11 +5,16 @@
 
 
 var express=require('express'),
+    mysql=require('mysql'),
+    credentials=require('./credentials.json'),
     app = express(),
-    port = process.env.PORT || 1338,
+    port = process.env.PORT || 80,
     async = require('async');
 
+credentials.host='localhost';
+var connection = mysql.createConnection(credentials);
 
+connection.connect(function(err){if(err){console.log(err)}});
 
 
 app.use(express.static(__dirname));
