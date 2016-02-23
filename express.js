@@ -12,22 +12,30 @@ var express=require('express'),
     async = require('async');
 
 credentials.host='localhost';
-var connection = mysql.createConnection(credentials);
+var connection
 
 function handleDisconnect() {
-connection = mysql.createConnection(credentials);
-connection.connect(function(err){if(err){
-	console.log(err)}});
+    connection = mysql.createConnection(credentials); // Recreate the connection, since
+                                                    // the old one cannot be reused.
 
-connection.on('error', function(err) {
-	console.log('db error', err);
-	if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-	handleDisconnect();
-}	else{
-	throwerr;
+    connection.connect(function(err) {              // The server is either down
+        if(err) {                                     // or restarting (takes a while sometimes).
+            console.log('error when connecting to db:', err);
+            setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+        }                                     // to avoid a hot loop, and to allow our node script to
+    });                                     // process asynchronous requests in the meantime.
+                                            // If you're also serving http, display a 503 error.
+    connection.on('error', function(err) {
+        console.log('db error', err);
+        if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+            handleDisconnect();                         // lost due to either server restart, or a
+        } else {                                      // connnection idle timeout (the wait_timeout
+            throw err;                                  // server variable configures this)
+        }
+    });
 }
-});
-}
+
+handleDisconnect();
 
 
 app.use(express.static(__dirname));
@@ -44,8 +52,8 @@ var Quantity = ["Quantity/and.webm", "Quantity/none.webm", "Quantity/about.webm"
 
 var Communication = ['CommunicationAndGovernment/movie.webm', 'CommunicationAndGovernment/recordplayer.webm', 'CommunicationAndGovernment/discuss.webm', 'CommunicationAndGovernment/law.webm', 'CommunicationAndGovernment/thank.webm', 'CommunicationAndGovernment/.writeName.py.swp', 'CommunicationAndGovernment/signs.webm', 'CommunicationAndGovernment/scold.webm', 'CommunicationAndGovernment/story.webm', 'CommunicationAndGovernment/letter.webm', 'CommunicationAndGovernment/politics.webm', 'CommunicationAndGovernment/exaggerate.webm', 'CommunicationAndGovernment/legislature.webm', 'CommunicationAndGovernment/testament.webm', 'CommunicationAndGovernment/commandment.webm', 'CommunicationAndGovernment/explain.webm', 'CommunicationAndGovernment/mock.webm', 'CommunicationAndGovernment/announce.webm', 'CommunicationAndGovernment/communicate.webm', 'CommunicationAndGovernment/magazine.webm', 'CommunicationAndGovernment/correspondence.webm', 'CommunicationAndGovernment/email.webm', 'CommunicationAndGovernment/command.webm', 'CommunicationAndGovernment/interpret.webm', 'CommunicationAndGovernment/principles.webm', 'CommunicationAndGovernment/second.webm', 'CommunicationAndGovernment/scream.webm', 'CommunicationAndGovernment/vow.webm', 'CommunicationAndGovernment/insult.webm', 'CommunicationAndGovernment/phone.webm', 'CommunicationAndGovernment/government.webm', 'CommunicationAndGovernment/listen.webm', 'CommunicationAndGovernment/television.webm', 'CommunicationAndGovernment/whisper.webm', 'CommunicationAndGovernment/show.webm', 'CommunicationAndGovernment/member.webm', 'CommunicationAndGovernment/interview.webm', 'CommunicationAndGovernment/promise.webm', 'CommunicationAndGovernment/federal.webm', 'CommunicationAndGovernment/congress.webm', 'CommunicationAndGovernment/advertise.webm', 'CommunicationAndGovernment/speak.webm', 'CommunicationAndGovernment/judge.webm', 'CommunicationAndGovernment/bawlout.webm', 'CommunicationAndGovernment/reveal.webm', 'CommunicationAndGovernment/book.webm', 'CommunicationAndGovernment/will.webm', 'CommunicationAndGovernment/conversation.webm', 'CommunicationAndGovernment/sentence.webm', 'CommunicationAndGovernment/writeName.py', 'CommunicationAndGovernment/totalcommunication.webm', 'CommunicationAndGovernment/expression.webm', 'CommunicationAndGovernment/translate.webm', 'CommunicationAndGovernment/fingerspelling.webm', 'CommunicationAndGovernment/taperecording.webm', 'CommunicationAndGovernment/dialogue.webm', 'CommunicationAndGovernment/board.webm', 'CommunicationAndGovernment/quarrel.webm', 'CommunicationAndGovernment/gossip.webm', 'CommunicationAndGovernment/newspaper.webm', 'CommunicationAndGovernment/rules.webm', 'CommunicationAndGovernment/seal.webm', 'CommunicationAndGovernment/senate.webm', 'CommunicationAndGovernment/vote.webm', 'CommunicationAndGovernment/debate.webm', 'CommunicationAndGovernment/radio.webm', 'CommunicationAndGovernment/voice.webm']
 var Education = ['Education/chapter.webm', 'Education/school.webm', 'Education/college.webm', 'Education/vocabulary.webm', 'Education/psychology.webm', 'Education/training.webm', 'Education/profession.webm', 'Education/diploma.webm', 'Education/experiment.webm', 'Education/language.webm', 'Education/firstyeargradstudent.webm', 'Education/audiology.webm', 'Education/learn.webm', 'Education/certifiicate.webm', 'Education/examination.webm', 'Education/student.webm', 'Education/program.webm', 'Education/process.webm', 'Education/teach.webm', 'Education/license.webm', 'Education/project.webm', 'Education/word.webm', 'Education/lesson.webm', 'Education/idiom.webm', 'Education/library.webm', 'Education/write.webm', 'Education/poetry.webm', 'Education/line.webm', 'Education/certify.webm', 'Education/graduate.webm', 'Education/sing.webm', 'Education/study.webm', 'Education/education.webm', 'Education/institution.webm', 'Education/practice.webm', 'Education/chemistry.webm', 'Education/paragraph.webm', 'Education/minor.webm', 'Education/workshop.webm', 'Education/quote.webm', 'Education/rhythm.webm', 'Education/history.webm', 'Education/dictionary.webm', 'Education/grammar.webm', 'Education/art.webm', 'Education/biology.webm', 'Education/drama.webm', 'Education/curriculum.webm', 'Education/read.webm', 'Education/major.webm', 'Education/course.webm', 'Education/schedule.webm', 'Education/science.webm']
-
-var All = [Quantity, Communication, Education];
+var Nouns = ['Nouns/city.webm', 'Nouns/list.webm', 'Nouns/cigarette.webm', 'Nouns/fireworks.webm', 'Nouns/wood.webm', 'Nouns/smoking.webm', 'Nouns/named.webm', 'Nouns/house.webm', 'Nouns/flag.webm', 'Nouns/gift.webm', 'Nouns/rope.webm', 'Nouns/test.webm', 'Nouns/rubber.webm', 'Nouns/foundation.webm', 'Nouns/bridge.webm', 'Nouns/box.webm', 'Nouns/diamond.webm', 'Nouns/bury.webm', 'Nouns/fire.webm', 'Nouns/camp.webm', 'Nouns/silver.webm', 'Nouns/ticket.webm', 'Nouns/collection.webm', 'Nouns/name.webm', 'Nouns/electricity.webm', 'Nouns/stage.webm', 'Nouns/building.webm', 'Nouns/gold.webm', 'Nouns/signature.webm', 'Nouns/post.webm', 'Nouns/jail.webm', 'Nouns/removeAudio.sh', 'Nouns/thing.webm', 'Nouns/elevator.webm', 'Nouns/string.webm', 'Nouns/magic.webm', 'Nouns/doll.webm', 'Nouns/insurance.webm', 'Nouns/funeral.webm']
+var All = [Quantity, Communication, Education, Nouns];
 
 app.all('/*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://felixchapman.me');
