@@ -14,7 +14,20 @@ var express=require('express'),
 credentials.host='localhost';
 var connection = mysql.createConnection(credentials);
 
-connection.connect(function(err){if(err){console.log(err)}});
+function handleDisconnect() {
+connection = mysql.createConnection(credentials);
+connection.connect(function(err){if(err){
+	console.log(err)}});
+
+connection.on('error', function(err) {
+	console.log('db error', err);
+	if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+	handleDisconnect();
+}	else{
+	throwerr;
+}
+});
+}
 
 
 app.use(express.static(__dirname));
