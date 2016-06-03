@@ -16,7 +16,7 @@ angular.module('buttons',[])
 
 
 function ButtonCtrl($scope, buttonApi){
-    $scope.video = 'All/and.webm';
+    $scope.video = 'Nouns/collection.webm';
     $scope.switchVideo = switchVideo;
     $scope.checkAnswer = checkAnswer;
     $scope.answer = 'remember no upper case & all one word';
